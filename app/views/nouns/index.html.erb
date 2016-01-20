@@ -1,0 +1,4 @@
+<h1>Nouns</h1>
+<% @nouns.each do | noun | %>
+  <p><%= link_to noun.english, noun_path(noun) %></p>
+<% end %>

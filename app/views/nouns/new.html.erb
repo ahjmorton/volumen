@@ -1,0 +1,22 @@
+<h1>Enter Latin Nouns</h1>
+<%= form_for :noun, url: nouns_path do |f| %>
+  <p>
+    <%= f.label :english %><br />
+    <%= f.text_field :english %>
+  </p>
+  <p>
+    <%= f.label :nomative %><br />
+    <%= f.text_field :nomative %>
+  </p>
+  <p>
+    <%= f.label :genative %><br />
+    <%= f.text_field :genative %>
+  </p>
+  <p>
+    <%= f.label :gender %><br />
+    <%= f.select :gender, [:Male, :Female, :Neutral] %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
