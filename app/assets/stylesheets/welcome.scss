@@ -35,10 +35,21 @@ div#field div.earth {
    z-index:3;
 }
 
-div#field div.root {
-   background-color: red;
+div.earth div.root {
    position: absolute;
-   width: 10px;
-   height: 10px;
    z-index:4;
+   margin: 0;
+   spacing: 0;
+   transform-origin: 0% 50%;
+}
+
+div.earth div.root p {
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   -o-user-select: none;
+   user-select: none;
+   cursor: default;
+   margin: 0;
+   spacing: 0;
 }
