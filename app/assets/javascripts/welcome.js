@@ -1,7 +1,30 @@
 (function($) {
 
    var earth = undefined;
-   var roots = [];
+
+   function getNewWord(callback) {
+       callback("Hello");
+   }
+
+   var activityManager = (function() {
+       var elements = [];
+
+       function doUpdate() {
+           elements.forEach(function(element) {
+               element.step();
+           });
+       }
+
+       return {
+          init : function() {
+              setInterval(doUpdate, 100);
+          },
+          addActivity : function(activity) {
+              activity.init();
+              elements.push(activity);
+          }
+       };
+   })();
 
    function rotatable(element, initial, stepAmount) {
       var goingRight = true;
@@ -49,40 +72,35 @@
       return result;
    }
 
-   function createRoot(earth, clickX, clickY) {
+   function createRoot(earth, clickX, clickY, resultCallback) {
        var earthPosition = earth.position();
        clickX = clickX - earthPosition.left;
        clickY = clickY - earthPosition.top;
        var topValue = (clickY / earth.height()) * 100;
        var leftValue = (clickX / earth.width()) * 100;
        var root = $('<div>')
-           .attr('class', 'root')
+           .attr('class', 'plant')
            .css('top', topValue + '%')
            .css('left', leftValue + '%')
-       var plant = $('<div />')
-           .attr('class', 'plant')
-       var text = $('<p>Hello</p>')
-           .attr('class', 'word'); 
-       plant.append(text);
-       root.append(plant);
-       earth.append(root);
-       return root;
+       getNewWord(function(word, error) {
+          var text = $('<p>' + word + '</p>')
+               .attr('class', 'word'); 
+          root.append(text);
+          resultCallback(root);
+       });
    }
 
    $(document).ready(function() {
-       setInterval(function() {
-          roots.forEach(function(root) {
-              root.step();
-          });
-       }, 100);
-
+       activityManager.init();
        $('.earth').click(function(e) {
            if(!earth) {
                earth = $(e.target);
            }
-           var root = createRoot(earth, e.clientX, e.clientY);
-           root = rotatable(root, -90, 15).init();
-           roots.push(root);
+           createRoot(earth, e.clientX, e.clientY, function(root) {
+               earth.append(root);
+               root = rotatable(root, -90, 15)
+               activityManager.addActivity(root);
+           });
        });
    });
 })(jQuery)

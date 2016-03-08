@@ -35,7 +35,7 @@ div#field div.earth {
    z-index:3;
 }
 
-div.earth div.root {
+div.earth div.plant {
    position: absolute;
    z-index:4;
    margin: 0;
@@ -43,7 +43,7 @@ div.earth div.root {
    transform-origin: 0% 50%;
 }
 
-div.earth div.root p {
+div.earth div.plant p {
    -webkit-user-select: none;
    -moz-user-select: none;
    -ms-user-select: none;
