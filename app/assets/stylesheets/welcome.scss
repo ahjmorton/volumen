@@ -40,7 +40,6 @@ div.earth div.plant {
    z-index:4;
    margin: 0;
    spacing: 0;
-   transform-origin: 0% 50%;
 }
 
 div.earth div.plant p {
@@ -52,4 +51,31 @@ div.earth div.plant p {
    cursor: default;
    margin: 0;
    spacing: 0;
+}
+
+.waving {
+   transform-origin: 0% 50%;
+   animation-name: wave;
+   animation-duration: 2s;
+   animation-iteration-count: infinite;
+   animation-direction: alternate;
+}
+
+@keyframes wave {
+   0% { transform : rotate(-120deg)}
+   100% { transform : rotate(-60deg)}
+}
+
+.growing {
+   transform-origin: 0% 50%;
+   animation-name: grow;
+   animation-duration: 20s;
+   animation-iteration-count: 1;
+   animation-direction: normal;
+   animation-fill-mode: forwards;
+}
+
+@keyframes grow {
+   0% { transform : scale(1,1)}
+   100% { transform : scale(2.5, 1.5)}
 }
