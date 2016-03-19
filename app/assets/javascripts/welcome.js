@@ -3,10 +3,10 @@
 (function($) {
 
    function getNewWord(callback) {
-       callback("Hello");
+       callback("Macushla");
    }
 
-   function createBranch(element, resultCallback) {
+   function createBranch(resultCallback) {
       var branch = $('<div>')
            .addClass('branch waving')
            .css('left', '90%');
@@ -14,7 +14,7 @@
           var text = $('<p>' + word + '</p>')
                .addClass('growing word'); 
           branch.append(text);
-          resultCallback(branch);
+          resultCallback(branch, text);
        });
    }
 
@@ -77,23 +77,32 @@
    }());
      
    $(document).ready(function() {
+       var MAX_HEIGHT = 3;
        var earth = $('#earth');
        wavingManager.init();
 
+       function growPlant(branch, grower, recursion) {
+          grower.one('animationend', function(e) {
+            var scaledSize = getScaledSize(grower);
+            branch
+              .css("height", scaledSize.height)
+              .css("width", scaledSize.width);
+            createBranch(function(newBranch, newGrower, error) {
+              var className = wavingManager.addStyleFor(-30, 30, 2);
+              newBranch.addClass(className);
+              branch.append(newBranch);
+              if(recursion < MAX_HEIGHT) {
+                 growPlant(newBranch, newGrower, recursion + 1);
+              }
+            });
+          });
+       }
+
        function addNewRoot(root, branch, grower) {
          var className = wavingManager.addStyleFor(-120, -60, 2);
-         console.log(className);
          branch.addClass(className);
          earth.append(root);
-         /*grower.one('animationend', function(e) {
-           var scaledSize = getScaledSize(grower);
-           firstBranch
-             .css("height", scaledSize.height)
-             .css("width", scaledSize.width);
-           createBranch(root, function(branch, error) {
-             firstBranch.append(branch);
-           });
-         });*/
+         growPlant(branch, grower, 0);
        }
 
        earth.click(function(e) {

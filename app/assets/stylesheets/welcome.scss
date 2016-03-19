@@ -43,11 +43,13 @@ div.earth div.plant {
 }
 
 div.earth div.plant div.branch {
-   position: relative;
+   position: absolute;
    margin: 0;
 }
 
 div.earth div.plant p.word {
+   position: absolute;
+   display:inline-block;
    -webkit-user-select: none;
    -moz-user-select: none;
    -ms-user-select: none;
