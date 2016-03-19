@@ -60,15 +60,8 @@ div.earth div.plant p.word {
 
 .waving {
    transform-origin: 0% 50%;
-   animation-name: wave;
-   animation-duration: 2s;
    animation-iteration-count: infinite;
    animation-direction: alternate;
-}
-
-@keyframes wave {
-   0% { transform : rotate(-120deg)}
-   100% { transform : rotate(-60deg)}
 }
 
 .growing {

@@ -50,27 +50,41 @@
       };
    }
 
+   function constructWaving(startPosition, endPosition, duration) {
+       var className = "waving-" + startPosition + "-" + endPosition + "-" + duration;
+       console.log(className);
+       var animationName = className + "-animation";
+       var node = $('<style type="text/css"> .' + className + '{ animation-name: ' + animationName + '; animation-duration: ' + duration + 's;} @keyframes ' + animationName + ' { 0% { transform : rotate(' + startPosition + 'deg)} 100% { transform : rotate(' + endPosition + 'deg)}}</style>')
+       return {
+           className: className,
+           node: node
+       };
+   }
+
    $(document).ready(function() {
        var earth = $('#earth');
-       
-       function handleEarthClick(e) {
-         createRoot(earth, e.clientX, e.clientY, function(root, firstBranch, grower) {
-           earth.append(root);
-           grower.one('animationend', function(e) {
-             var scaledSize = getScaledSize(grower);
-             firstBranch
-                .css("height", scaledSize.height)
-                .css("width", scaledSize.width);
-             createBranch(root, function(branch, error) {
-               firstBranch.append(branch);
-             });
+       var head = $('head');      
+
+       function addNewRoot(root, branch, grower) {
+         var waving = constructWaving(-120, -60, 2);
+         console.log(waving);
+         head.append(waving.node);
+         branch.addClass(waving.className);
+         earth.append(root);
+         /*grower.one('animationend', function(e) {
+           var scaledSize = getScaledSize(grower);
+           firstBranch
+             .css("height", scaledSize.height)
+             .css("width", scaledSize.width);
+           createBranch(root, function(branch, error) {
+             firstBranch.append(branch);
            });
-         });
+         });*/
        }
 
        earth.click(function(e) {
            if($(e.target).is('#earth')) {
-              handleEarthClick(e);
+               createRoot(earth, e.clientX, e.clientY, addNewRoot) 
            }
        });
    });
