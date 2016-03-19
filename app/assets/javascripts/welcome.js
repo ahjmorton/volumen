@@ -50,26 +50,40 @@
       };
    }
 
-   function constructWaving(startPosition, endPosition, duration) {
-       var className = "waving-" + startPosition + "-" + endPosition + "-" + duration;
-       console.log(className);
+   var wavingManager = (function() {
+     var cache = {};
+     var head = undefined;
+
+     function doDefineNode(className, startPosition, endPosition, duration) {
        var animationName = className + "-animation";
        var node = $('<style type="text/css"> .' + className + '{ animation-name: ' + animationName + '; animation-duration: ' + duration + 's;} @keyframes ' + animationName + ' { 0% { transform : rotate(' + startPosition + 'deg)} 100% { transform : rotate(' + endPosition + 'deg)}}</style>')
-       return {
-           className: className,
-           node: node
-       };
-   }
+       return node;
+     }
 
+     return {
+       init : function() {
+         head = $('head');
+       },
+       addStyleFor : function(startPosition, endPosition, duration) {
+         var className = "waving-" + startPosition + "-" + endPosition + "-" + duration;
+         if(!cache.hasOwnProperty(className)) {
+           var node = doDefineNode(className, startPosition, endPosition, duration);
+           cache[className] = node;
+           head.append(node);
+         }
+         return className;
+       }
+     }
+   }());
+     
    $(document).ready(function() {
        var earth = $('#earth');
-       var head = $('head');      
+       wavingManager.init();
 
        function addNewRoot(root, branch, grower) {
-         var waving = constructWaving(-120, -60, 2);
-         console.log(waving);
-         head.append(waving.node);
-         branch.addClass(waving.className);
+         var className = wavingManager.addStyleFor(-120, -60, 2);
+         console.log(className);
+         branch.addClass(className);
          earth.append(root);
          /*grower.one('animationend', function(e) {
            var scaledSize = getScaledSize(grower);
