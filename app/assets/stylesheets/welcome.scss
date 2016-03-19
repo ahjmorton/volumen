@@ -42,7 +42,12 @@ div.earth div.plant {
    spacing: 0;
 }
 
-div.earth div.plant p {
+div.earth div.plant div.branch {
+   position: relative;
+   margin: 0;
+}
+
+div.earth div.plant p.word {
    -webkit-user-select: none;
    -moz-user-select: none;
    -ms-user-select: none;
@@ -69,7 +74,7 @@ div.earth div.plant p {
 .growing {
    transform-origin: 0% 50%;
    animation-name: grow;
-   animation-duration: 20s;
+   animation-duration: 2s;
    animation-iteration-count: 1;
    animation-direction: normal;
    animation-fill-mode: forwards;

@@ -1,9 +1,21 @@
-(function($) {
+'use strict';
 
-   var earth = undefined;
+(function($) {
 
    function getNewWord(callback) {
        callback("Hello");
+   }
+
+   function createBranch(element, resultCallback) {
+      var branch = $('<div>')
+           .addClass('branch waving')
+           .css('left', '90%');
+       getNewWord(function(word, error) {
+          var text = $('<p>' + word + '</p>')
+               .addClass('growing word'); 
+          branch.append(text);
+          resultCallback(branch);
+       });
    }
 
    function createRoot(earth, clickX, clickY, resultCallback) {
@@ -16,28 +28,50 @@
            .addClass('plant')
            .css('top', topValue + '%')
            .css('left', leftValue + '%');
-       var waving = $('<div>')
-           .addClass('waving');
-       var growing = $('<div>')
-           .addClass('growing');
+       var branch = $('<div>')
+           .addClass('branch waving');
        getNewWord(function(word, error) {
           var text = $('<p>' + word + '</p>')
-               .attr('class', 'word'); 
-          growing.append(text);
-          waving.append(growing);
-          root.append(waving);
-          resultCallback(root);
+               .addClass('word growing'); 
+          branch.append(text);
+          root.append(branch);
+          resultCallback(root, branch, text);
        });
+   }
+ 
+   function getScaledSize(obj) {
+      var matrix = obj.css("transform");
+      var values = matrix.split('(')[1].split(')')[0].split(',');
+      var scaledWidth = obj.width() * values[0];
+      var scaledHeight = obj.height() * values[3];
+      return {
+          height: scaledHeight,
+          width: scaledWidth
+      };
    }
 
    $(document).ready(function() {
-       $('.earth').click(function(e) {
-           if(!earth) {
-               earth = $(e.target);
-           }
-           createRoot(earth, e.clientX, e.clientY, function(root) {
-               earth.append(root);
+       var earth = $('#earth');
+       
+       function handleEarthClick(e) {
+         createRoot(earth, e.clientX, e.clientY, function(root, firstBranch, grower) {
+           earth.append(root);
+           grower.one('animationend', function(e) {
+             var scaledSize = getScaledSize(grower);
+             firstBranch
+                .css("height", scaledSize.height)
+                .css("width", scaledSize.width);
+             createBranch(root, function(branch, error) {
+               firstBranch.append(branch);
+             });
            });
+         });
+       }
+
+       earth.click(function(e) {
+           if($(e.target).is('#earth')) {
+              handleEarthClick(e);
+           }
        });
    });
 })(jQuery)
