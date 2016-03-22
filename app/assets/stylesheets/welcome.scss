@@ -68,14 +68,7 @@ div.earth div.plant p.word {
 
 .growing {
    transform-origin: 0% 50%;
-   animation-name: grow;
-   animation-duration: 2s;
    animation-iteration-count: 1;
    animation-direction: normal;
    animation-fill-mode: forwards;
-}
-
-@keyframes grow {
-   0% { transform : scale(1,1)}
-   100% { transform : scale(2.5, 1.5)}
 }

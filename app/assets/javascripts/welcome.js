@@ -54,10 +54,30 @@
      var cache = {};
      var head = undefined;
 
+     function doDefineGrowing(className, initXScale, endXScale, initYScale, endYScale, duration) {
+        var animationName = className + '-animation';
+
+        var node = $('<style type="text/css"> .' + className + '{ animation-name: ' + animationName + '; animation-duration: ' + duration + 's;} @keyframes ' + animationName + ' { 0% { transform : scale(' + initYScale + ',' + initXScale + ')} 100% { transform : scale(' + endYScale + ',' + endXScale + ')}}</style>');
+        return node;
+     }
+
      function doDefineWaving(className, startPosition, endPosition, duration) {
-       var animationName = className + "-animation";
+       var animationName = className + '-animation';
        var node = $('<style type="text/css"> .' + className + '{ animation-name: ' + animationName + '; animation-duration: ' + duration + 's;} @keyframes ' + animationName + ' { 0% { transform : rotate(' + startPosition + 'deg)} 100% { transform : rotate(' + endPosition + 'deg)}}</style>')
        return node;
+     }
+
+     function getOrUpdateFromCache(className, builder) {
+        if(!cache.hasOwnProperty(className)) {
+           var node = builder(className)
+           cache[className] = node;
+           head.append(node);
+         }
+         return className;
+     }
+
+     function forCss(word) {
+        return word.toString().replace(/\./g, '-');
      }
 
      return {
@@ -65,13 +85,16 @@
          head = $('head');
        },
        addWavingFor : function(startPosition, endPosition, duration) {
-         var className = "waving-" + startPosition + "-" + endPosition + "-" + duration;
-         if(!cache.hasOwnProperty(className)) {
-           var node = doDefineWaving(className, startPosition, endPosition, duration);
-           cache[className] = node;
-           head.append(node);
-         }
-         return className;
+         var className = forCss("waving-" + startPosition + "-" + endPosition + "-" + duration);
+         return getOrUpdateFromCache(className, function(className) {
+           return doDefineWaving(className, startPosition, endPosition, duration);
+         });
+       },
+       addGrowingFor : function(startX, endX, startY, endY, duration) {
+         var className = forCss("growing-" + forCss(startX) + "-" + endX + "-" + startY + "-" + endY + "-" + duration);
+         return getOrUpdateFromCache(className, function(className) {
+           return doDefineGrowing(className, startX, endX, startY, endY, duration);
+         });
        }
      }
    }());
@@ -88,8 +111,12 @@
               .css("height", scaledSize.height)
               .css("width", scaledSize.width);
             createBranch(function(newBranch, newGrower, error) {
-              var className = animationManager.addWavingFor(-30, 30, 2);
-              newBranch.addClass(className);
+              var wavingClass = animationManager.addWavingFor(-30, 30, 2);
+              newBranch.addClass(wavingClass);
+
+              var growingClass = animationManager.addGrowingFor(0.10, 2.25, 0.10, 1.25, 2);
+              newGrower.addClass(growingClass);
+
               branch.append(newBranch);
               if(recursion < MAX_HEIGHT) {
                  growPlant(newBranch, newGrower, recursion + 1);
@@ -99,8 +126,12 @@
        }
 
        function addNewRoot(root, branch, grower) {
-         var className = animationManager.addWavingFor(-120, -60, 2);
-         branch.addClass(className);
+         var wavingClass = animationManager.addWavingFor(-120, -60, 2);
+         branch.addClass(wavingClass);
+         
+         var growingClass = animationManager.addGrowingFor(0.10, 2.25, 0.10, 1.25, 2);
+         grower.addClass(growingClass);
+
          earth.append(root);
          growPlant(branch, grower, 0);
        }
