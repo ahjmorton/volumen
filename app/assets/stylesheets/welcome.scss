@@ -39,12 +39,14 @@ div.earth div.plant {
    position: absolute;
    z-index:4;
    margin: 0;
+   padding: 0;
    spacing: 0;
 }
 
 div.earth div.plant div.branch {
    position: absolute;
    margin: 0;
+   padding: 0;
 }
 
 div.earth div.plant p.word {
@@ -57,7 +59,7 @@ div.earth div.plant p.word {
    user-select: none;
    cursor: default;
    margin: 0;
-   spacing: 0;
+   padding: 0;
 }
 
 .waving {
