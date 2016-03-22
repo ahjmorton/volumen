@@ -50,11 +50,11 @@
       };
    }
 
-   var wavingManager = (function() {
+   var animationManager = (function() {
      var cache = {};
      var head = undefined;
 
-     function doDefineNode(className, startPosition, endPosition, duration) {
+     function doDefineWaving(className, startPosition, endPosition, duration) {
        var animationName = className + "-animation";
        var node = $('<style type="text/css"> .' + className + '{ animation-name: ' + animationName + '; animation-duration: ' + duration + 's;} @keyframes ' + animationName + ' { 0% { transform : rotate(' + startPosition + 'deg)} 100% { transform : rotate(' + endPosition + 'deg)}}</style>')
        return node;
@@ -64,10 +64,10 @@
        init : function() {
          head = $('head');
        },
-       addStyleFor : function(startPosition, endPosition, duration) {
+       addWavingFor : function(startPosition, endPosition, duration) {
          var className = "waving-" + startPosition + "-" + endPosition + "-" + duration;
          if(!cache.hasOwnProperty(className)) {
-           var node = doDefineNode(className, startPosition, endPosition, duration);
+           var node = doDefineWaving(className, startPosition, endPosition, duration);
            cache[className] = node;
            head.append(node);
          }
@@ -79,7 +79,7 @@
    $(document).ready(function() {
        var MAX_HEIGHT = 3;
        var earth = $('#earth');
-       wavingManager.init();
+       animationManager.init();
 
        function growPlant(branch, grower, recursion) {
           grower.one('animationend', function(e) {
@@ -88,7 +88,7 @@
               .css("height", scaledSize.height)
               .css("width", scaledSize.width);
             createBranch(function(newBranch, newGrower, error) {
-              var className = wavingManager.addStyleFor(-30, 30, 2);
+              var className = animationManager.addWavingFor(-30, 30, 2);
               newBranch.addClass(className);
               branch.append(newBranch);
               if(recursion < MAX_HEIGHT) {
@@ -99,7 +99,7 @@
        }
 
        function addNewRoot(root, branch, grower) {
-         var className = wavingManager.addStyleFor(-120, -60, 2);
+         var className = animationManager.addWavingFor(-120, -60, 2);
          branch.addClass(className);
          earth.append(root);
          growPlant(branch, grower, 0);
