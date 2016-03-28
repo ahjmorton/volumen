@@ -12,14 +12,4 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20160108223245) do
-
-  create_table "nouns", force: :cascade do |t|
-    t.string   "english"
-    t.string   "nomative"
-    t.string   "genative"
-    t.integer  "gender"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
 end
