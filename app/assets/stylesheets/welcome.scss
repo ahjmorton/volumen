@@ -17,16 +17,22 @@ div#field {
    z-index:1;
 }
 
+$sky-end-color : #66e0ff;
+
 div#field div.sky {
    position: absolute;
    height: 100%;
    width: 100%;
-   background-color: #B18904;
+   background: $sky-end-color;
    z-index: 2;
 }
 
+$earth-start-color : #009900;
+$earth-end-color : #99ff99;
+
 div#field div.earth {
-   background-color: #61210B;
+   background: $earth-start-color;
+   background: linear-gradient(to top, $earth-start-color, $earth-end-color);
    position: absolute;
    bottom: 0;
    left: 0;
@@ -37,7 +43,7 @@ div#field div.earth {
 
 div.earth div.plant {
    position: absolute;
-   z-index:4;
+   z-index:5;
    margin: 0;
    padding: 0;
    spacing: 0;
