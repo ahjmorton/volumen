@@ -5,7 +5,7 @@
    var wordManager = (function() {
 
        var words = [
-       'abbas',
+    'abbas',
     'abbatia',
     'abduco',
     'abeo',
@@ -3578,9 +3578,28 @@
        }
      }
    }());
-     
+    
    $(document).ready(function() {
-       var MAX_HEIGHT = 3;
+       var MAX_HEIGHT = 4;
+       var MAX_WAVE_DURATION = 7;
+       var MIN_WAVE_DURATION = 2;
+       var WAVE_DURATION = MAX_WAVE_DURATION - MIN_WAVE_DURATION;
+       var ROOT_MIN_ANGLE = -150;
+       var ROOT_MAX_ANGLE = -40;
+       var WAVE_RADIUS = Math.abs(ROOT_MIN_ANGLE - ROOT_MAX_ANGLE);
+       var MAX_WAVE = WAVE_RADIUS / 2;
+       
+       function waveParameters(base) {
+          var leftWave = base - Math.floor((Math.random() * MAX_WAVE));
+          var rightWave = base + Math.floor((Math.random() * MAX_WAVE));
+          var duration = Math.floor(MIN_WAVE_DURATION + (WAVE_DURATION * Math.random()));
+          return {
+             start : leftWave,
+             end : rightWave,
+             duration : duration
+          };
+       } 
+
        var earth = $('#earth');
        animationManager.init();
        wordManager.init();
@@ -3592,7 +3611,8 @@
               .css("height", scaledSize.height)
               .css("width", scaledSize.width);
             createBranch(function(newBranch, newGrower, error) {
-              var wavingClass = animationManager.addWavingFor(-30, 30, 2);
+              var wParameters = waveParameters(0);
+              var wavingClass = animationManager.addWavingFor(wParameters.start, wParameters.end, wParameters.duration);
               newBranch.addClass(wavingClass);
 
               var growingClass = animationManager.addGrowingFor(0.10, 2.25, 0.10, 1.25, 2);
@@ -3607,14 +3627,15 @@
        }
 
        function addNewRoot(root, branch, grower) {
-         var wavingClass = animationManager.addWavingFor(-120, -60, 2);
+         var wParameters = waveParameters(-90);
+         var wavingClass = animationManager.addWavingFor(wParameters.start, wParameters.end, wParameters.duration);
          branch.addClass(wavingClass);
          
          var growingClass = animationManager.addGrowingFor(0.10, 2.25, 0.10, 1.25, 2);
          grower.addClass(growingClass);
 
          earth.append(root);
-         growPlant(branch, grower, 0);
+         growPlant(branch, grower, 1);
        }
 
        earth.click(function(e) {
