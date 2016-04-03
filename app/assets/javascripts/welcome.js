@@ -3584,14 +3584,17 @@
        var MAX_WAVE_DURATION = 7;
        var MIN_WAVE_DURATION = 2;
        var WAVE_DURATION = MAX_WAVE_DURATION - MIN_WAVE_DURATION;
-       var ROOT_MIN_ANGLE = -150;
-       var ROOT_MAX_ANGLE = -40;
+       var ROOT_MIN_ANGLE = -130;
+       var ROOT_MAX_ANGLE = -65;
        var WAVE_RADIUS = Math.abs(ROOT_MIN_ANGLE - ROOT_MAX_ANGLE);
        var MAX_WAVE = WAVE_RADIUS / 2;
+       var WAVE_STEP = MAX_HEIGHT / MAX_WAVE;
        
-       function waveParameters(base) {
-          var leftWave = base - Math.floor((Math.random() * MAX_WAVE));
-          var rightWave = base + Math.floor((Math.random() * MAX_WAVE));
+       function waveParameters(base, scaling) {
+          scaling = scaling || 0;
+          var scaledWave = MAX_WAVE - (scaling * WAVE_STEP);
+          var leftWave = base - Math.floor((Math.random() * scaledWave));
+          var rightWave = base + Math.floor((Math.random() * scaledWave));
           var duration = Math.floor(MIN_WAVE_DURATION + (WAVE_DURATION * Math.random()));
           return {
              start : leftWave,
@@ -3611,7 +3614,7 @@
               .css("height", scaledSize.height)
               .css("width", scaledSize.width);
             createBranch(function(newBranch, newGrower, error) {
-              var wParameters = waveParameters(0);
+              var wParameters = waveParameters(0, recursion);
               var wavingClass = animationManager.addWavingFor(wParameters.start, wParameters.end, wParameters.duration);
               newBranch.addClass(wavingClass);
 
