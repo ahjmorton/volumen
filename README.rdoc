@@ -1,6 +1,6 @@
 == README
 
-This project is a gift to girlfriend. 
+This project is a gift to my lovely girlfriend. 
 
 One of the things about programming is that it is very hard for those outside it to see what is possible and appreciate it. 
 
