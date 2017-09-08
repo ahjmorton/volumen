@@ -1,9 +1,3 @@
 == README
 
-This project is a gift to my lovely girlfriend. 
-
-One of the things about programming is that it is very hard for those outside it to see what is possible and appreciate it. 
-
-I created this with the hope of producing something that someone I love would appreciate using the skills I have.
-
-I love you Kate.
+HTML5 Ruby on Rails sample application
