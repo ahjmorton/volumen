@@ -1,5 +1,7 @@
 'use strict';
 
+const jQuery = require('jquery');
+
 (function($) {
 
    var wordManager = (function() {

@@ -1,21 +1,36 @@
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const extractSass = new ExtractTextPlugin({
+    filename: "style.css"
+});
 
 module.exports = {
-  entry: './src/index.js',
+  context: path.resolve(__dirname, "src"),
+  entry: ['./index.js', "./index.scss"],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   module : {
     rules : [{
-      test: /\.scss$/,
-      use: [{
-        loader: "style-loader"
-      }, {
-        loader: "css-loader"
-      }, {
-        loader: "sass-loader" 
-      }]
+      test : /\.scss$/,
+      use: extractSass.extract({
+        use: [{
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader"
+        }],
+        fallback: "style-loader"
+      })
     }]
-  }
+  },
+  plugins : [
+    extractSass,
+    new HtmlWebpackPlugin({
+      title: "volumen",
+      template : "./index.html"
+    })
+  ]
 };
