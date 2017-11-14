@@ -1,3 +1,0 @@
-== README
-
-HTML5 Ruby on Rails sample application

@@ -1,0 +1,30 @@
+{
+  "name": "volumen",
+  "version": "1.0.0",
+  "description": "== README",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahjmorton/volumen.git"
+  },
+  "author": "Andrew Morton <ahjmorton@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahjmorton/volumen/issues"
+  },
+  "homepage": "https://github.com/ahjmorton/volumen#readme",
+  "devDependencies": {
+    "extract-text-webpack-plugin": "^3.0.2",
+    "node-sass": "^4.6.1",
+    "sass-loader": "^6.0.6",
+    "webpack": "^3.8.1"
+  }
+}
