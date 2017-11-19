@@ -1,7 +1,7 @@
 'use strict';
 
-const jQuery = require('jquery');
+import 'jquery';
 
 import start from "./app.js"
 
-start(jQuery, document);
+start(jquery, document);
