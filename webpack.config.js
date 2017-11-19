@@ -24,6 +24,12 @@ module.exports = {
         }],
         fallback: "style-loader"
       })
+    }, {
+      test : /\.js$/,
+      exclude : /node_modules/,
+      use : {
+        loader : 'babel-loader'
+      }
     }]
   },
   plugins : [
