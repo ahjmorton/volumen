@@ -11,7 +11,11 @@ const distDir = 'dist';
 
 module.exports = {
   context: path.resolve(__dirname, "src"),
-  entry: ['./index.js', "./index.scss"],
+  entry: [
+   'babel-polyfill',
+    './index.js', 
+    "./index.scss"
+  ],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, distDir)
@@ -29,9 +33,10 @@ module.exports = {
       })
     }, {
       test : /\.js$/,
+      loader : 'babel-loader',
       exclude : /node_modules/,
-      use : {
-        loader : 'babel-loader'
+      query : {
+        presets : ['es2015']
       }
     }]
   },
